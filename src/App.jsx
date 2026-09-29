@@ -316,7 +316,7 @@ export default function App() {
             <span className="box-lid">
               <span className="ribbon-horizontal"/><span className="ribbon-vertical"/>
               <span className="bow-loop bow-left"/><span className="bow-loop bow-right"/><span className="bow-knot"/>
-              <span className="gift-label"><span>something lovely</span><strong>just for you</strong><Heart size={17}/></span>
+              <span className="gift-label"><span>something special</span><strong>just for you</strong><Heart size={17}/></span>
             </span>
           </button>
         </div>
