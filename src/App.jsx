@@ -19,6 +19,105 @@ function Confetti({ burst, grand = false }) {
   </div>;
 }
 
+function StarBurst({ burst }) {
+  if (!burst) return null;
+
+  const stars = Array.from({ length: 24 }, (_, index) => {
+    const angle = (index / 24) * Math.PI * 2;
+    const distance = 88 + (index % 5) * 18;
+    return {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance * 0.72,
+      size: 10 + (index % 4) * 4,
+      delay: (index % 6) * 0.025,
+      rotate: 90 + index * 31,
+      glyph: index % 3 === 0 ? "✦" : index % 3 === 1 ? "★" : "✧",
+    };
+  });
+
+  return <div key={`star-burst-${burst}`} className="wish-star-burst" aria-hidden="true">
+    <span className="wish-glow-ring" />
+    {stars.map((star, index) => (
+      <i
+        key={index}
+        style={{
+          "--star-x": `${star.x.toFixed(1)}px`,
+          "--star-y": `${star.y.toFixed(1)}px`,
+          "--star-size": `${star.size}px`,
+          "--star-delay": `${star.delay}s`,
+          "--star-rotate": `${star.rotate}deg`,
+        }}
+      >
+        {star.glyph}
+      </i>
+    ))}
+  </div>;
+}
+
+
+function FloatingHearts({ burst }) {
+  if (!burst) return null;
+
+  const hearts = [
+    { x: -58, y: -92, size: 15, delay: 0.10, rotate: -18 },
+    { x: -30, y: -118, size: 11, delay: 0.22, rotate: 12 },
+    { x: 6, y: -108, size: 14, delay: 0.15, rotate: -8 },
+    { x: 38, y: -126, size: 12, delay: 0.28, rotate: 16 },
+    { x: 64, y: -94, size: 16, delay: 0.18, rotate: -14 },
+    { x: -5, y: -145, size: 10, delay: 0.34, rotate: 9 },
+  ];
+
+  return <div key={`wish-hearts-${burst}`} className="wish-floating-hearts" aria-hidden="true">
+    {hearts.map((heart, index) => (
+      <i
+        key={index}
+        style={{
+          "--heart-x": `${heart.x}px`,
+          "--heart-y": `${heart.y}px`,
+          "--heart-size": `${heart.size}px`,
+          "--heart-delay": `${heart.delay}s`,
+          "--heart-rotate": `${heart.rotate}deg`,
+        }}
+      >
+        ♡
+      </i>
+    ))}
+  </div>;
+}
+
+
+function TinyCakeBurst({ burst }) {
+  if (!burst) return null;
+
+  const cakes = [
+    { x: -104, y: -70, size: 28, delay: 0.08, rotate: -16 },
+    { x: -74, y: -114, size: 22, delay: 0.16, rotate: 10 },
+    { x: -18, y: -132, size: 24, delay: 0.24, rotate: -8 },
+    { x: 38, y: -126, size: 26, delay: 0.12, rotate: 14 },
+    { x: 92, y: -82, size: 23, delay: 0.20, rotate: -12 },
+    { x: 112, y: -26, size: 20, delay: 0.28, rotate: 8 },
+    { x: -110, y: -18, size: 21, delay: 0.18, rotate: 12 },
+    { x: 4, y: -92, size: 18, delay: 0.31, rotate: -4 },
+  ];
+
+  return <div key={`tiny-cakes-${burst}`} className="wish-tiny-cakes" aria-hidden="true">
+    {cakes.map((cake, index) => (
+      <img
+        key={index}
+        src="/cake-slice.png"
+        alt=""
+        style={{
+          "--cake-x": `${cake.x}px`,
+          "--cake-y": `${cake.y}px`,
+          "--cake-size": `${cake.size}px`,
+          "--cake-delay": `${cake.delay}s`,
+          "--cake-rotate": `${cake.rotate}deg`,
+        }}
+      />
+    ))}
+  </div>;
+}
+
 function LittleMomentsModal({ moments, memory, setMemory, onClose }) {
   const [failed, setFailed] = useState({});
   const current = moments[memory];
@@ -196,8 +295,11 @@ export default function App() {
           })}
 
           <div className="cake-center" aria-hidden={!opened}>
+            <StarBurst burst={celebrationMoment} />
+            <FloatingHearts burst={celebrationMoment} />
+            <TinyCakeBurst burst={celebrationMoment} />
             <button type="button" tabIndex={opened && blown && cakeBites < 6 ? 0 : -1}
-              className={`cake-image-wrap ${blown ? "candles-out cake-is-tappable" : ""} ${cakeEating ? "cake-is-eating" : ""} ${cakeBites >= 6 ? "cake-gone" : ""}`}
+              className={`cake-image-wrap ${blown ? "candles-out cake-is-tappable" : ""} ${celebrationMoment ? "cake-wish-bounce" : ""} ${cakeEating ? "cake-is-eating" : ""} ${cakeBites >= 6 ? "cake-gone" : ""}`}
               onClick={eatCake} disabled={!blown || cakeEating || cakeBites >= 6}
               aria-label={blown ? (cakeBites >= 6 ? "The birthday cake has been eaten" : "Eat the birthday cake") : "Blow the candles before eating the cake"}>
               <img src="/birthday-cake.png" alt="A handmade paper birthday cake with pink frosting and three candles" className={`cake-image cake-bite-stage-${cakeBites}`} />
@@ -214,7 +316,7 @@ export default function App() {
             <span className="box-lid">
               <span className="ribbon-horizontal"/><span className="ribbon-vertical"/>
               <span className="bow-loop bow-left"/><span className="bow-loop bow-right"/><span className="bow-knot"/>
-              <span className="gift-label"><span>something special</span><strong>just for you</strong><Heart size={17}/></span>
+              <span className="gift-label"><span>something lovely</span><strong>just for you</strong><Heart size={17}/></span>
             </span>
           </button>
         </div>

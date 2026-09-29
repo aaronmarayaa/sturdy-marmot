@@ -315,3 +315,169 @@ footer button{padding:7px 10px;color:#80666d}
     transform:translateX(-50%);
   }
 }
+
+/* --- Lightweight star burst after blowing the candles --- */
+.cake-center{
+  overflow:visible;
+}
+.wish-star-burst{
+  position:absolute;
+  left:50%;
+  top:58px;
+  width:1px;
+  height:1px;
+  z-index:12;
+  pointer-events:none;
+  overflow:visible;
+}
+.wish-star-burst i{
+  position:absolute;
+  left:0;
+  top:0;
+  display:block;
+  width:var(--star-size);
+  height:var(--star-size);
+  color:#d1a24e;
+  font:normal var(--star-size)/1 Georgia,"Times New Roman",serif;
+  font-style:normal;
+  text-align:center;
+  opacity:0;
+  filter:drop-shadow(0 2px 2px #6d465020);
+  transform:translate(-50%,-50%) scale(.15) rotate(0deg);
+  animation:wishStarExplode 1.22s cubic-bezier(.16,.75,.22,1) var(--star-delay) both;
+}
+.wish-star-burst i:nth-of-type(3n){color:#c57f98}
+.wish-star-burst i:nth-of-type(4n){color:#e9c77c}
+.wish-star-burst i:nth-of-type(5n){color:#b98393}
+.wish-glow-ring{
+  position:absolute;
+  left:0;
+  top:0;
+  width:34px;
+  height:34px;
+  border:2px solid #e7bd6f;
+  border-radius:50%;
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.25);
+  box-shadow:0 0 16px #f1cc7d55;
+  animation:wishGlowPulse .78s ease-out both;
+}
+@keyframes wishStarExplode{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.15) rotate(0deg)}
+  14%{opacity:1}
+  72%{opacity:.96;transform:translate(calc(-50% + var(--star-x)),calc(-50% + var(--star-y))) scale(1) rotate(var(--star-rotate))}
+  100%{opacity:0;transform:translate(calc(-50% + var(--star-x)),calc(-50% + var(--star-y))) scale(.72) rotate(var(--star-rotate))}
+}
+@keyframes wishGlowPulse{
+  0%{opacity:.85;transform:translate(-50%,-50%) scale(.2)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(4.2)}
+}
+@media(max-width:640px){
+  .wish-star-burst{top:66px}
+  .wish-star-burst i{animation-duration:1.12s}
+}
+@media(prefers-reduced-motion:reduce){
+  .wish-star-burst{display:none}
+}
+
+/* --- Patch: floating paper hearts + a gentle cake bounce after the wish --- */
+.wish-floating-hearts{
+  position:absolute;
+  left:50%;
+  top:68px;
+  width:1px;
+  height:1px;
+  z-index:13;
+  pointer-events:none;
+  overflow:visible;
+}
+.wish-floating-hearts i{
+  position:absolute;
+  left:0;
+  top:0;
+  color:#bd748b;
+  font:normal var(--heart-size)/1 Georgia,"Times New Roman",serif;
+  opacity:0;
+  filter:drop-shadow(0 2px 2px #6d46501f);
+  transform:translate(-50%,-50%) scale(.55) rotate(0deg);
+  animation:wishHeartFloat 1.7s cubic-bezier(.18,.68,.25,1) var(--heart-delay) both;
+}
+.wish-floating-hearts i:nth-child(even){color:#d59aaa}
+.wish-floating-hearts i:nth-child(3n){color:#c89e63}
+
+.cake-image-wrap.cake-wish-bounce{
+  animation:cakeWishBounce .62s cubic-bezier(.22,.8,.32,1.25) 1.08s both;
+}
+
+@keyframes wishHeartFloat{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.45) rotate(0deg);
+  }
+  18%{opacity:.95}
+  72%{
+    opacity:.8;
+    transform:translate(calc(-50% + var(--heart-x)),calc(-50% + var(--heart-y))) scale(1) rotate(var(--heart-rotate));
+  }
+  100%{
+    opacity:0;
+    transform:translate(calc(-50% + var(--heart-x)),calc(-50% + var(--heart-y) - 18px)) scale(.82) rotate(var(--heart-rotate));
+  }
+}
+
+@keyframes cakeWishBounce{
+  0%,100%{transform:translateY(0) scale(1)}
+  35%{transform:translateY(-7px) scale(1.025)}
+  62%{transform:translateY(2px) scale(.992)}
+  82%{transform:translateY(-2px) scale(1.008)}
+}
+
+@media(max-width:640px){
+  .wish-floating-hearts{top:76px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .wish-floating-hearts{display:none}
+  .cake-image-wrap.cake-wish-bounce{animation:none!important}
+}
+
+
+/* --- Tiny bouncing cakes after the wish --- */
+.wish-tiny-cakes{
+  position:absolute;
+  left:50%;
+  top:76px;
+  width:1px;
+  height:1px;
+  z-index:12;
+  pointer-events:none;
+  overflow:visible;
+}
+.wish-tiny-cakes img{
+  position:absolute;
+  left:0;
+  top:0;
+  width:var(--cake-size);
+  height:auto;
+  display:block;
+  opacity:0;
+  filter:drop-shadow(0 3px 3px #6d465025);
+  transform:translate(-50%,-50%) scale(.22) rotate(0deg);
+  animation:tinyCakeBounce 1.9s cubic-bezier(.18,.74,.25,1) var(--cake-delay) both;
+}
+@keyframes tinyCakeBounce{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.22) rotate(0deg)}
+  12%{opacity:1}
+  36%{opacity:1;transform:translate(calc(-50% + var(--cake-x) * .72),calc(-50% + var(--cake-y) * .72)) scale(1) rotate(var(--cake-rotate))}
+  54%{opacity:1;transform:translate(calc(-50% + var(--cake-x)),calc(-50% + var(--cake-y))) scale(1.03) rotate(calc(var(--cake-rotate) * 1.06))}
+  67%{opacity:1;transform:translate(calc(-50% + var(--cake-x)),calc(-50% + var(--cake-y) + 18px)) scale(.98) rotate(calc(var(--cake-rotate) * .98))}
+  80%{opacity:.98;transform:translate(calc(-50% + var(--cake-x)),calc(-50% + var(--cake-y) + 3px)) scale(1) rotate(var(--cake-rotate))}
+  100%{opacity:0;transform:translate(calc(-50% + var(--cake-x)),calc(-50% + var(--cake-y) + 12px)) scale(.92) rotate(var(--cake-rotate))}
+}
+@media(max-width:640px){
+  .wish-tiny-cakes{top:84px}
+  .wish-tiny-cakes img{animation-duration:1.75s}
+}
+@media(prefers-reduced-motion:reduce){
+  .wish-tiny-cakes{display:none}
+}
